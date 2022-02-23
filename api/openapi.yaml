@@ -1,24 +1,28 @@
 openapi: 3.0.0
 info:
   title: Sample API
-  description: A sample API that uses a sample-site as an example to demonstrate features
-    in the OpenAPI 3.0 specification
+  description: ワークフロー画面のバックエンドのAPI群。モックとしても使用する。
   version: 1.0.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-- url: http://localhost:8003
+- url: http://localhost:8080
+  description: ローカル環境
+- url: https://wf-rest.herokuapp.com
+  description: デモ環境
 paths:
   /users:
     get:
-      description: |
-        Returns all users
+      tags:
+      - users
+      summary: ユーザ一覧取得
+      description: ユーザの一覧を返す
       operationId: findUsers
       parameters:
-      - name: tags
+      - name: conditions
         in: query
-        description: tags to filter by
+        description: フィルタ条件
         required: false
         style: form
         explode: true
@@ -28,7 +32,7 @@ paths:
             type: string
       - name: limit
         in: query
-        description: maximum number of results to return
+        description: 一覧の最大件数
         required: false
         style: form
         explode: true
@@ -37,69 +41,338 @@ paths:
           format: int32
       responses:
         "200":
-          description: user response
+          description: ユーザモデルのJSON形式の配列
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users'
+                type: array
+                example:
+                - id: 1
+                  userId: test01
+                  name: テスト太郎
+                  bornDate: 1990-04-12
+                  postNumber: "1620844"
+                  address1: 東京都
+                  address2: 新宿区
+                  address3: 市谷八幡町XX-XX-XXX
+                  address4: テストマンション901
+                  email: 12345@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 2
+                  userId: sample01
+                  name: サンプル太郎
+                  bornDate: 1965-03-25
+                  postNumber: "1690075"
+                  address1: 東京都
+                  address2: 新宿区
+                  address3: 高田馬場XX-XX-XXX
+                  address4: サンプルマンション101
+                  email: sample@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 3
+                  userId: user01
+                  name: テストユーザ０１
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 4
+                  userId: user02
+                  name: テストユーザ０２
+                  bornDate: 1975-02-23
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: false
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 5
+                  userId: user03
+                  name: テストユーザ０３
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 6
+                  userId: user04
+                  name: テストユーザ０４
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 7
+                  userId: user05
+                  name: テストユーザ０５
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 8
+                  userId: user06
+                  name: テストユーザ０６
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 9
+                  userId: user07
+                  name: テストユーザ０７
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 10
+                  userId: user08
+                  name: テストユーザ０８
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 11
+                  userId: user09
+                  name: テストユーザ０９
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                - id: 12
+                  userId: user10
+                  name: テストユーザ１０
+                  bornDate: 1975-02-22
+                  postNumber: "1160013"
+                  address1: 東京都
+                  address2: 荒川区
+                  address3: 西日暮里XX-XX-XXX
+                  address4: テストマンション999
+                  email: test@abc.co.jp
+                  activeFlag: true
+                  memo: メモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+                items:
+                  $ref: '#/components/schemas/User'
+                x-content-type: application/json
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-swagger-router-controller: Default
+      x-swagger-router-controller: Users
+    post:
+      tags:
+      - users
+      summary: ユーザ新規作成
+      description: ユーザの新規作成
+      operationId: createUser
+      parameters: []
+      requestBody:
+        description: ユーザを作成する
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          description: CREATED
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+  /users/{userId}:
+    get:
+      tags:
+      - users
+      summary: ユーザ情報取得
+      operationId: getUser
+      parameters:
+      - name: userId
+        in: path
+        description: ユーザID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ユーザ一件の情報
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-swagger-router-controller: Users
+    delete:
+      tags:
+      - users
+      summary: ユーザ削除
+      operationId: deleteUser
+      parameters:
+      - name: userId
+        in: path
+        description: ユーザID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: DELETED
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
+    patch:
+      tags:
+      - users
+      summary: ユーザ情報更新
+      operationId: updateUser
+      parameters:
+      - name: userId
+        in: path
+        description: ユーザID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ユーザ更新データ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: UPDATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-swagger-router-controller: Users
 components:
   schemas:
-    Users:
-      type: array
+    User:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+          example: 99
+        userId:
+          type: string
+          example: sample999
+        name:
+          type: string
+          example: サンプルユーザ999
+        bornDate:
+          type: string
+          format: date
+          example: 1985-01-01
+        postNumber:
+          type: string
+          example: "2720025"
+        address1:
+          type: string
+          example: 千葉県
+        address2:
+          type: string
+          example: 市川市
+        address3:
+          type: string
+          example: 大和田99-999-999
+        address4:
+          type: string
+          example: サンプルマンション101
+        email:
+          type: string
+          format: email
+          example: abcd@abc.co.jp
+        activeFlag:
+          type: boolean
+          description: システムを利用の有効/無効フラグ
+          example: true
+        memo:
+          type: string
+          example: |
+            テスト用のユーザです。
+            メモメモです。
+      description: ユーザ
       example:
-      - id: "1"
-        name: テスト太郎
-        userId: test01
-        status: active
-      - id: "2"
-        name: サンプル次郎
-        userId: test02
-        status: active
-      - id: "3"
-        name: ユーザ０１
-        userId: user01
-        status: active
-      - id: "4"
-        name: ユーザ０２
-        userId: user02
-        status: inactive
-      - id: "5"
-        name: ユーザ０３
-        userId: user03
-        status: pending
-      - id: "6"
-        name: ユーザ０４
-        userId: user04
-        status: active
-      - id: "7"
-        name: ユーザ０５
-        userId: user05
-        status: inactive
-      - id: "8"
-        name: ユーザ０６
-        userId: user06
-        status: pending
-      - id: "9"
-        name: ユーザ０７
-        userId: user07
-        status: active
-      - id: "10"
-        name: ユーザ０８
-        userId: user08
-        status: pending
-      - id: "11"
-        name: ユーザ０９
-        userId: user09
-        status: active
-      items:
-        $ref: '#/components/schemas/Users_inner'
+        address3: 大和田99-999-999
+        address2: 市川市
+        address1: 千葉県
+        name: サンプルユーザ999
+        memo: |
+          テスト用のユーザです。
+          メモメモです。
+        bornDate: 1985-01-01T00:00:00.000+00:00
+        id: 99
+        address4: サンプルマンション101
+        postNumber: "2720025"
+        userId: sample999
+        email: abcd@abc.co.jp
+        activeFlag: true
     Error:
       type: object
       properties:
@@ -110,22 +383,13 @@ components:
           type: string
         message:
           type: string
-    Users_inner:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        userId:
-          type: string
-        status:
-          type: string
-          description: user status
-          enum:
-          - pending
-          - active
-          - inactive
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      description: ユーザID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string

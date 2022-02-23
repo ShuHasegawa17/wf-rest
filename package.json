@@ -1,11 +1,11 @@
 {
   "name": "sample-api",
   "version": "1.0.0",
-  "description": "A sample API that uses a sample-site as an example to demonstrate features in the OpenAPI 3.0 specification",
+  "description": "ワークフロー画面のバックエンドのAPI群。モックとしても使用する。",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm install",
-    "start": "node index.js"
+	"prestart": "npm install",
+	"start": "node index.js"
   },
   "keywords": [
     "swagger"
@@ -14,7 +14,6 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
-    "cors": "^2.8.5",
     "js-yaml": "^3.3.0",
     "oas3-tools": "^2.2.3"
   }
